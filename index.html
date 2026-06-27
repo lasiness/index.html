@@ -54,7 +54,77 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { font-size: 15px; }
-body { font-family: var(--font-b); background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+body { font-family: var(--font-b); background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; transition: background .25s, color .25s; }
+
+/* ====================================================
+   DARK MODE
+   ==================================================== */
+body.dark-mode {
+  --navy:       #0A1628;
+  --navy-mid:   #0D2040;
+  --blue:       #4A90D9;
+  --blue-light: #6EB0F5;
+  --gold:       #E8C56A;
+  --gold-light: #F5DB8A;
+
+  --white:      #1E2532;
+  --bg:         #141922;
+  --surface:    #1E2532;
+  --border:     #2E3748;
+  --border-mid: #3A4557;
+
+  --text:       #E8ECF2;
+  --text-mid:   #A8B4C8;
+  --text-soft:  #6E7F96;
+
+  --green:      #3DBE75;
+  --green-bg:   #0E2A1C;
+  --red:        #F06060;
+  --red-bg:     #2A1010;
+  --orange:     #F08040;
+  --orange-bg:  #2A1A08;
+  --purple:     #9B84D8;
+  --purple-bg:  #1E1535;
+}
+body.dark-mode .topbar      { background: #0A1628; border-bottom: 1px solid #1E2532; }
+body.dark-mode .sidebar     { background: #1A2130; border-right: 1px solid #2E3748; }
+body.dark-mode .card        { background: #1E2532; border-color: #2E3748; }
+body.dark-mode .stat-card   { background: #1E2532; border-color: #2E3748; }
+body.dark-mode .modal       { background: #1E2532; }
+body.dark-mode .modal-header{ background: #1E2532; border-color: #2E3748; }
+body.dark-mode .modal-footer{ border-color: #2E3748; }
+body.dark-mode thead th     { background: #252D3D; }
+body.dark-mode tbody tr:hover{ background: #252D3D; }
+body.dark-mode .form-group input,
+body.dark-mode .form-group select,
+body.dark-mode .form-group textarea { background: #252D3D; border-color: #3A4557; color: #E8ECF2; }
+body.dark-mode .search-box  { background: #252D3D; border-color: #3A4557; }
+body.dark-mode .search-box input { color: #E8ECF2; }
+body.dark-mode .tabs        { background: #252D3D; }
+body.dark-mode .tab-btn.active { background: #1E2532; }
+body.dark-mode .nav-item:hover { background: #252D3D; }
+body.dark-mode .nav-item.active { background: #1A3055; }
+body.dark-mode .dl-menu     { background: #1E2532; border-color: #2E3748; }
+body.dark-mode .dl-menu-item:hover { background: #252D3D; }
+body.dark-mode .upload-zone { background: #252D3D; border-color: #3A4557; }
+body.dark-mode .doc-viewer-box { background: #1E2532; }
+body.dark-mode .doc-viewer-header { background: #1E2532; border-color: #2E3748; }
+body.dark-mode .btn-outline { background: #252D3D; border-color: #3A4557; color: #A8B4C8; }
+body.dark-mode .btn-outline:hover { background: #2E3748; }
+body.dark-mode .login-field input,
+body.dark-mode .login-field select { background: rgba(255,255,255,.06); }
+body.dark-mode .activity-export-menu { background: #1E2532; border-color: #2E3748; }
+body.dark-mode #activity-export-menu { background: #1E2532; border-color: #2E3748; }
+
+/* Dark mode toggle button */
+.dark-toggle {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12);
+  color: rgba(255,255,255,.7); font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: background .2s;
+}
+.dark-toggle:hover { background: rgba(255,255,255,.15); }
 a { text-decoration: none; color: inherit; }
 button { font-family: var(--font-b); cursor: pointer; border: none; outline: none; }
 input, select, textarea { font-family: var(--font-b); font-size: 14px; }
@@ -683,6 +753,9 @@ tbody tr:hover { background: #FAFBFC; }
       <div class="nas-indicator" id="nas-status">
         <i class="fa-solid fa-server"></i> NAS: Online
       </div>
+      <button class="dark-toggle" id="dark-toggle-btn" onclick="toggleDarkMode()" aria-label="เปลี่ยนโหมดสี" title="โหมดมืด/สว่าง">
+        <i class="fa-solid fa-moon" id="dark-icon"></i>
+      </button>
       <button class="topbar-icon-btn" onclick="showToast('ไม่มีการแจ้งเตือนใหม่','',2000)" aria-label="แจ้งเตือน">
         <i class="fa-solid fa-bell"></i>
       </button>
@@ -1023,8 +1096,8 @@ tbody tr:hover { background: #FAFBFC; }
          ============================================ -->
     <div class="page" id="page-materials">
       <div class="page-header">
-        <h1>บิลวัสดุก่อสร้าง</h1>
-        <p>รายการสั่งซื้อวัสดุ ติดตามสถานะการจ่าย และยอดรวม</p>
+        <h1><i class="fa-solid fa-boxes-stacking" style="color:var(--blue);margin-right:10px"></i>บิลวัสดุก่อสร้าง</h1>
+        <p>รายการสั่งซื้อวัสดุ ติดตามสถานะการจ่าย โฟร์แมนอัปเดตได้โดยตรง</p>
         <div class="page-actions">
           <button class="btn btn-primary" onclick="openModal('modal-add-bill')">
             <i class="fa-solid fa-plus"></i> เพิ่มบิลวัสดุ
@@ -1032,31 +1105,35 @@ tbody tr:hover { background: #FAFBFC; }
           <button class="btn btn-outline" onclick="exportTable('materials-tbody','บิลวัสดุ')">
             <i class="fa-solid fa-file-excel"></i> Export
           </button>
+          <div class="search-box">
+            <i class="fa-solid fa-search"></i>
+            <input type="text" id="mat-search" placeholder="ค้นหาโครงการ บิล..." oninput="renderMaterials()"/>
+          </div>
         </div>
       </div>
       <div class="stats-grid" style="grid-template-columns:repeat(4,1fr)">
         <div class="stat-card" style="--accent:var(--blue)">
           <div class="stat-label"><i class="fa-solid fa-file-invoice"></i> บิลทั้งหมด</div>
-          <div class="stat-value" id="mat-total">18</div>
+          <div class="stat-value" id="mat-total">5</div>
           <div class="stat-sub">เดือนนี้</div>
         </div>
         <div class="stat-card" style="--accent:var(--orange)">
           <div class="stat-label"><i class="fa-solid fa-clock"></i> รอชำระ</div>
-          <div class="stat-value" id="mat-pending">4</div>
-          <div class="stat-sub">รวม ฿185,400</div>
+          <div class="stat-value" id="mat-pending">3</div>
+          <div class="stat-sub" id="mat-pending-sum">รวม ฿122,500</div>
         </div>
         <div class="stat-card" style="--accent:var(--green)">
           <div class="stat-label"><i class="fa-solid fa-check-circle"></i> ชำระแล้ว</div>
-          <div class="stat-value" id="mat-paid">14</div>
-          <div class="stat-sub">รวม ฿1,240,000</div>
+          <div class="stat-value" id="mat-paid">2</div>
+          <div class="stat-sub" id="mat-paid-sum">รวม ฿127,000</div>
         </div>
         <div class="stat-card" style="--accent:var(--gold)">
           <div class="stat-label"><i class="fa-solid fa-coins"></i> ยอดรวม</div>
-          <div class="stat-value">฿1.43M</div>
+          <div class="stat-value" id="mat-total-sum">฿249,500</div>
           <div class="stat-sub">สะสมเดือนนี้</div>
         </div>
       </div>
-      <div class="table-wrap card">
+      <div class="table-wrap card" style="padding:0">
         <table>
           <thead>
             <tr>
@@ -1067,11 +1144,11 @@ tbody tr:hover { background: #FAFBFC; }
               <th>จำนวนเงิน</th>
               <th>วันที่</th>
               <th>สถานะ</th>
-              <th>NAS</th>
+              <th>อัปเดตล่าสุด</th>
               <th>จัดการ</th>
             </tr>
           </thead>
-          <tbody id="materials-tbody"><!-- JS --></tbody>
+          <tbody id="materials-tbody"></tbody>
         </table>
       </div>
     </div><!-- /materials -->
@@ -2229,6 +2306,58 @@ tbody tr:hover { background: #FAFBFC; }
   </div>
 </div>
 
+<!-- MODAL: Bill Detail + Foreman Updates -->
+<div class="modal-overlay" id="modal-bill-detail">
+  <div class="modal" style="max-width:680px">
+    <div class="modal-header">
+      <div>
+        <div style="font-family:var(--font-h);font-size:16px;font-weight:600" id="bd-title">รายละเอียดบิล</div>
+        <div style="font-size:12px;color:var(--text-soft);margin-top:2px" id="bd-subtitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-bill-detail')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <!-- Bill summary -->
+      <div id="bd-summary" style="background:var(--bg);border-radius:var(--radius);padding:14px 18px;margin-bottom:18px;display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;font-size:13px"></div>
+
+      <!-- Bill photo -->
+      <div id="bd-photo-section" style="margin-bottom:18px"></div>
+
+      <!-- Foreman updates timeline -->
+      <div>
+        <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:8px">
+          <i class="fa-solid fa-clock-rotate-left" style="color:var(--gold)"></i> อัปเดตจากโฟร์แมน
+          <span id="bd-update-count" style="font-size:11px;background:var(--bg);padding:2px 8px;border-radius:20px;color:var(--text-soft)"></span>
+        </div>
+        <div id="bd-updates" style="display:flex;flex-direction:column;gap:10px"></div>
+      </div>
+
+      <!-- Add update (foreman/manager only) -->
+      <div id="bd-add-update" style="border-top:1px solid var(--border);margin-top:16px;padding-top:16px">
+        <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:10px">
+          <i class="fa-solid fa-plus" style="color:var(--blue);margin-right:6px"></i>เพิ่มอัปเดต
+        </div>
+        <textarea id="bd-update-text" rows="2" placeholder="บันทึกสถานะ เช่น รับของแล้ว ของมาไม่ครบ..."
+          style="width:100%;padding:10px 12px;border:1px solid var(--border-mid);border-radius:var(--radius-sm);background:var(--white);color:var(--text);font-size:13px;resize:vertical;margin-bottom:10px"></textarea>
+        <div style="display:flex;gap:10px;align-items:center">
+          <div style="position:relative;flex:1">
+            <input type="file" id="bd-photo-input" accept="image/*" style="display:none" onchange="handleBillPhoto(this)"/>
+            <button onclick="document.getElementById('bd-photo-input').click()"
+              style="width:100%;padding:9px;border-radius:var(--radius-sm);border:1.5px dashed var(--border-mid);background:var(--bg);color:var(--text-mid);font-size:13px;cursor:pointer;display:flex;align-items:center;gap:7px;justify-content:center">
+              <i class="fa-solid fa-camera" style="color:var(--blue)"></i>
+              <span id="bd-photo-name">แนบภาพบิล</span>
+            </button>
+          </div>
+          <button class="btn btn-primary" onclick="submitBillUpdate()" style="flex-shrink:0">
+            <i class="fa-solid fa-check"></i> บันทึก
+          </button>
+        </div>
+        <div id="bd-photo-preview" style="margin-top:10px"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- DOC VIEWER POPUP -->
 <div class="doc-viewer-overlay" id="doc-viewer-overlay" onclick="closeDocViewer(event)">
   <div class="doc-viewer-box" onclick="event.stopPropagation()">
@@ -2287,11 +2416,13 @@ const GHB = {
   ],
 
   materials: [
-    { id:'INV-001', project:'GHB-2024-001', items:'ปูนซีเมนต์ 200 ถุง, ทรายหยาบ 5 คิว', vendor:'ร้านวัสดุก่อสร้าง จ.มหาสารคาม', amount:45000,  date:'2024-06-15', status:'paid',    nas:true  },
-    { id:'INV-002', project:'GHB-2024-002', items:'เหล็กเส้น 12 มม. 100 เส้น',           vendor:'ร้านอาร์ไอเอ็ม เหล็ก',          amount:82000,  date:'2024-06-18', status:'paid',    nas:true  },
-    { id:'INV-003', project:'GHB-2024-001', items:'กระเบื้องหลังคา SCG 500 แผ่น',        vendor:'โฮมโปร มหาสารคาม',              amount:32500,  date:'2024-06-20', status:'pending', nas:false },
-    { id:'INV-004', project:'GHB-2024-003', items:'สีทาบ้านภายนอก Dulux 30 ถัง',         vendor:'แกรนด์โฮม มหาสารคาม',           amount:28000,  date:'2024-06-22', status:'pending', nas:false },
-    { id:'INV-005', project:'GHB-2024-004', items:'คอนกรีตผสมเสร็จ 20 คิว',              vendor:'บจก.คอนกรีตมหาสารคาม',          amount:62000,  date:'2024-06-25', status:'pending', nas:false },
+    { id:'INV-001', project:'GHB-2024-001', items:'ปูนซีเมนต์ 200 ถุง, ทรายหยาบ 5 คิว', vendor:'ร้านวัสดุก่อสร้าง จ.มหาสารคาม', amount:45000, date:'2024-06-15', status:'paid',    nas:true,  foremanId:'foreman', billPhoto:null,
+      updates:[{ by:'วิชัย มานะ', role:'foreman', text:'รับของครบ ปูน 200 ถุง ทราย 5 คิว', datetime:'2024-06-15 10:32', photo:null }] },
+    { id:'INV-002', project:'GHB-2024-002', items:'เหล็กเส้น 12 มม. 100 เส้น', vendor:'ร้านอาร์ไอเอ็ม เหล็ก', amount:82000, date:'2024-06-18', status:'paid', nas:true, foremanId:'foreman', billPhoto:null,
+      updates:[{ by:'วิชัย มานะ', role:'foreman', text:'เหล็กมาครบ 100 เส้น ตรวจสอบแล้ว', datetime:'2024-06-18 14:15', photo:null }] },
+    { id:'INV-003', project:'GHB-2024-001', items:'กระเบื้องหลังคา SCG 500 แผ่น', vendor:'โฮมโปร มหาสารคาม', amount:32500, date:'2024-06-20', status:'pending', nas:false, foremanId:'foreman', billPhoto:null, updates:[] },
+    { id:'INV-004', project:'GHB-2024-003', items:'สีทาบ้านภายนอก Dulux 30 ถัง', vendor:'แกรนด์โฮม มหาสารคาม', amount:28000, date:'2024-06-22', status:'pending', nas:false, foremanId:'foreman', billPhoto:null, updates:[] },
+    { id:'INV-005', project:'GHB-2024-004', items:'คอนกรีตผสมเสร็จ 20 คิว', vendor:'บจก.คอนกรีตมหาสารคาม', amount:62000, date:'2024-06-25', status:'pending', nas:false, foremanId:'foreman', billPhoto:null, updates:[] },
   ],
 
   equipment: [
@@ -2842,47 +2973,247 @@ function addForeman() {
 /* ====================================================
    RENDER MATERIALS
    ==================================================== */
+/* ====================================================
+   MATERIALS — full feature with foreman updates
+   ==================================================== */
+let _billUpdatePhoto = null;
+let _openBillId      = null;
+
 function renderMaterials() {
-  const tbody = document.getElementById('materials-tbody');
+  const tbody  = document.getElementById('materials-tbody');
   if (!tbody) return;
-  tbody.innerHTML = GHB.materials.map(m => `
-    <tr>
-      <td><span style="font-family:var(--font-h);font-size:12px;font-weight:600;color:var(--blue)">${m.id}</span></td>
-      <td>${m.project}</td>
-      <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${m.items}</td>
-      <td>${m.vendor}</td>
-      <td style="font-weight:600;color:var(--text)">${fmtMoney(m.amount)}</td>
-      <td>${m.date}</td>
-      <td>${statusBadge(m.status)}</td>
-      <td>${nasTag(m.nas)}</td>
+  const search = (document.getElementById('mat-search')?.value||'').toLowerCase();
+  const role   = GHB.currentUser?.role||'';
+  const uname  = GHB.currentUser?.username||'';
+
+  /* Filter: foreman sees only their assigned bills */
+  let data = GHB.materials.filter(m => {
+    const matchSearch = !search || m.id.toLowerCase().includes(search)
+      || m.project.toLowerCase().includes(search)
+      || m.items.toLowerCase().includes(search)
+      || m.vendor.toLowerCase().includes(search);
+    /* foreman sees all (foremanId matching or unassigned) */
+    return matchSearch;
+  });
+
+  tbody.innerHTML = data.map(m => {
+    const lastUpd   = m.updates?.length ? m.updates[m.updates.length-1] : null;
+    const hasPhoto  = !!m.billPhoto;
+    const updCount  = m.updates?.length||0;
+    const canUpdate = ['manager','foreman','construction'].includes(role);
+
+    return `<tr>
       <td>
-        <button class="btn btn-outline btn-sm" onclick="toggleBillStatus('${m.id}')">
-          ${m.status==='pending'?'<i class="fa-solid fa-check"></i> ชำระ':'<i class="fa-solid fa-rotate-left"></i>'}
-        </button>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span style="font-family:var(--font-h);font-size:12px;font-weight:600;color:var(--blue)">${m.id}</span>
+          ${hasPhoto?`<i class="fa-solid fa-image" style="font-size:11px;color:var(--green)" title="มีภาพบิล"></i>`:''}
+        </div>
       </td>
-    </tr>`).join('');
-  document.getElementById('mat-total').textContent  = GHB.materials.length;
-  document.getElementById('mat-pending').textContent = GHB.materials.filter(m=>m.status==='pending').length;
-  document.getElementById('mat-paid').textContent    = GHB.materials.filter(m=>m.status==='paid').length;
+      <td style="font-size:13px">${m.project}</td>
+      <td>
+        <div style="font-size:13px;max-width:190px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${m.items}">${m.items}</div>
+      </td>
+      <td style="font-size:12px;color:var(--text-mid)">${m.vendor}</td>
+      <td style="font-weight:600">${fmtMoney(m.amount)}</td>
+      <td style="font-size:12px">${m.date}</td>
+      <td>
+        ${m.status==='paid'
+          ? `<span class="badge badge-green">ชำระแล้ว</span>`
+          : `<span class="badge badge-orange">รอชำระ</span>`}
+      </td>
+      <td>
+        ${lastUpd
+          ? `<button onclick="openBillDetail('${m.id}')"
+              style="text-align:left;background:none;border:none;cursor:pointer;padding:0">
+              <div style="font-size:11px;color:var(--blue);font-weight:500">${lastUpd.by}</div>
+              <div style="font-size:10px;color:var(--text-soft)">${lastUpd.datetime.split(' ')[0]}</div>
+              <div style="font-size:11px;color:var(--text-mid);max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${lastUpd.text}</div>
+              ${updCount>1?`<div style="font-size:10px;color:var(--text-soft)">(${updCount} อัปเดต)</div>`:''}
+            </button>`
+          : `<span style="font-size:11px;color:var(--text-soft)">ยังไม่มีอัปเดต</span>`}
+      </td>
+      <td>
+        <div style="display:flex;gap:5px">
+          <button class="btn btn-outline btn-sm" onclick="openBillDetail('${m.id}')" title="ดูรายละเอียด/อัปเดต">
+            <i class="fa-solid fa-${updCount>0?'comment-dots':'plus'}"></i>
+            ${updCount>0?`<span style="font-size:10px;background:var(--blue);color:#fff;border-radius:10px;padding:1px 5px">${updCount}</span>`:'อัปเดต'}
+          </button>
+          ${m.status==='pending'&&(['manager','finance'].includes(role))
+            ? `<button class="btn btn-success btn-sm" onclick="toggleBillStatus('${m.id}')">
+                 <i class="fa-solid fa-check"></i> ชำระ
+               </button>`
+            : m.status==='paid'&&role==='manager'
+              ? `<button class="btn btn-outline btn-sm" onclick="toggleBillStatus('${m.id}')">
+                   <i class="fa-solid fa-rotate-left"></i>
+                 </button>`
+              : ''}
+        </div>
+      </td>
+    </tr>`;
+  }).join('') || `<tr><td colspan="9" style="text-align:center;padding:30px;color:var(--text-soft)">ไม่พบรายการ</td></tr>`;
+
+  /* Update stats */
+  const paid    = GHB.materials.filter(m=>m.status==='paid');
+  const pending = GHB.materials.filter(m=>m.status==='pending');
+  const el = (id,v)=>{ const e=document.getElementById(id); if(e) e.textContent=v; };
+  el('mat-total',  GHB.materials.length);
+  el('mat-pending', pending.length);
+  el('mat-paid',    paid.length);
+  el('mat-pending-sum', 'รวม '+fmtMoney(pending.reduce((s,m)=>s+m.amount,0)));
+  el('mat-paid-sum',    'รวม '+fmtMoney(paid.reduce((s,m)=>s+m.amount,0)));
+  el('mat-total-sum',   fmtMoney(GHB.materials.reduce((s,m)=>s+m.amount,0)));
 }
+
 function toggleBillStatus(id) {
   const m = GHB.materials.find(x=>x.id===id);
   if (!m) return;
-  m.status = m.status==='pending'?'paid':'pending';
-  m.nas = m.status==='paid';
+  const newStatus = m.status==='pending'?'paid':'pending';
+  m.status = newStatus;
+  m.nas    = newStatus==='paid';
+  /* Auto-add system update */
+  m.updates = m.updates||[];
+  m.updates.push({
+    by: GHB.currentUser?.name||'ระบบ',
+    role: GHB.currentUser?.role||'',
+    text: newStatus==='paid' ? 'บันทึกการชำระเงินเรียบร้อย' : 'ยกเลิกการชำระ — เปลี่ยนเป็นรอชำระ',
+    datetime: new Date().toLocaleString('th-TH',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}),
+    photo: null
+  });
   renderMaterials();
-  showToast('อัปเดตสถานะบิล '+id+' สำเร็จ','success');
+  showToast(`อัปเดตสถานะ ${id}: ${newStatus==='paid'?'ชำระแล้ว':'รอชำระ'}`, 'success');
 }
+
+/* ---- BILL DETAIL MODAL ---- */
+function openBillDetail(id) {
+  _openBillId    = id;
+  _billUpdatePhoto = null;
+  const m = GHB.materials.find(x=>x.id===id);
+  if (!m) return;
+  const role = GHB.currentUser?.role||'';
+
+  document.getElementById('bd-title').textContent = m.id+' — '+m.items.slice(0,40)+(m.items.length>40?'...':'');
+  document.getElementById('bd-subtitle').textContent = m.project+' · '+m.vendor+' · '+fmtMoney(m.amount);
+
+  /* Summary */
+  document.getElementById('bd-summary').innerHTML = [
+    ['โครงการ', m.project], ['ร้านค้า', m.vendor],
+    ['รายการ', m.items],    ['จำนวนเงิน', fmtMoney(m.amount)],
+    ['วันที่',  m.date],    ['สถานะ', m.status==='paid'?'✅ ชำระแล้ว':'⏳ รอชำระ'],
+  ].map(([l,v])=>`
+    <div>
+      <div style="font-size:11px;color:var(--text-soft)">${l}</div>
+      <div style="font-size:13px;font-weight:500;color:var(--text)">${v}</div>
+    </div>`).join('');
+
+  /* Bill photo */
+  const photoSec = document.getElementById('bd-photo-section');
+  if (m.billPhoto) {
+    photoSec.innerHTML = `
+      <div style="margin-bottom:4px;font-size:12px;font-weight:600;color:var(--text-soft)">ภาพบิล/ใบเสร็จ</div>
+      <div style="position:relative;display:inline-block">
+        <img src="${m.billPhoto}" style="max-width:100%;max-height:220px;border-radius:8px;border:1px solid var(--border);display:block"/>
+        ${role==='manager'?`<button onclick="removeBillPhoto('${m.id}')"
+          style="position:absolute;top:6px;right:6px;width:26px;height:26px;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;border:none;cursor:pointer;font-size:11px">
+          <i class="fa-solid fa-xmark"></i></button>`:''}
+      </div>`;
+  } else {
+    photoSec.innerHTML = '';
+  }
+
+  /* Updates timeline */
+  const updates = m.updates||[];
+  document.getElementById('bd-update-count').textContent = updates.length+' รายการ';
+  document.getElementById('bd-updates').innerHTML = updates.length
+    ? updates.slice().reverse().map((u,i)=>`
+        <div style="display:flex;gap:10px;align-items:flex-start;padding:10px 12px;background:${i===0?'var(--bg)':'transparent'};border-radius:var(--radius-sm);border:${i===0?'1px solid var(--border)':'none'}">
+          <div style="width:32px;height:32px;border-radius:50%;background:${u.role==='foreman'?'#EEF4FF':'var(--bg)'};
+               display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:700;color:${u.role==='foreman'?'var(--blue)':'var(--text-mid)'}">
+            ${(u.by||'?').charAt(0)}
+          </div>
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:13px;font-weight:600;color:var(--text)">${u.by}</span>
+              <span style="font-size:11px;color:var(--text-soft)">${u.datetime}</span>
+              ${i===0?`<span style="font-size:10px;background:var(--green-bg);color:var(--green);padding:1px 6px;border-radius:10px;font-weight:500">ล่าสุด</span>`:''}
+            </div>
+            <div style="font-size:13px;color:var(--text-mid);margin-top:4px;line-height:1.5">${u.text}</div>
+            ${u.photo?`<img src="${u.photo}" style="margin-top:8px;max-width:100%;max-height:160px;border-radius:6px;border:1px solid var(--border);display:block" onclick="openLightbox('${u.photo}')"/>`:''}
+          </div>
+        </div>`).join('')
+    : `<div style="text-align:center;padding:20px;color:var(--text-soft);font-size:13px">ยังไม่มีการอัปเดต — เป็นคนแรกที่อัปเดต!</div>`;
+
+  /* Show/hide add-update section */
+  const canUpdate = ['manager','foreman','construction'].includes(role);
+  document.getElementById('bd-add-update').style.display = canUpdate ? '' : 'none';
+
+  /* Reset input */
+  document.getElementById('bd-update-text').value = '';
+  document.getElementById('bd-photo-name').textContent = 'แนบภาพบิล';
+  document.getElementById('bd-photo-preview').innerHTML = '';
+  _billUpdatePhoto = null;
+
+  openModal('modal-bill-detail');
+}
+
+function handleBillPhoto(input) {
+  const file = input.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    _billUpdatePhoto = ev.target.result;
+    document.getElementById('bd-photo-name').textContent = file.name;
+    document.getElementById('bd-photo-preview').innerHTML =
+      `<img src="${ev.target.result}" style="max-width:100%;max-height:120px;border-radius:6px;border:1px solid var(--border);margin-top:6px;display:block"/>`;
+  };
+  reader.readAsDataURL(file);
+}
+
+function submitBillUpdate() {
+  const text = document.getElementById('bd-update-text').value.trim();
+  if (!text && !_billUpdatePhoto) { showToast('กรุณากรอกข้อความหรือแนบภาพ','error'); return; }
+  const m = GHB.materials.find(x=>x.id===_openBillId);
+  if (!m) return;
+  m.updates = m.updates||[];
+  const update = {
+    by:   GHB.currentUser?.name||'ไม่ระบุ',
+    role: GHB.currentUser?.role||'',
+    text: text||'(แนบภาพ)',
+    datetime: new Date().toLocaleString('th-TH',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}),
+    photo: _billUpdatePhoto||null
+  };
+  /* If photo and no bill photo yet, set as bill photo */
+  if (_billUpdatePhoto && !m.billPhoto) m.billPhoto = _billUpdatePhoto;
+  m.updates.push(update);
+  renderMaterials();
+  openBillDetail(_openBillId); /* re-render modal */
+  showToast('บันทึกอัปเดตสำเร็จ','success');
+  GHB.activities.unshift({
+    icon:'fa-file-invoice', color:'var(--orange)',
+    time: new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'}),
+    date: new Date().toLocaleDateString('th-TH',{year:'numeric',month:'short',day:'numeric'}),
+    user: GHB.currentUser?.name||'ระบบ', category:'การเงิน',
+    text:`อัปเดตบิล ${_openBillId}: ${text||'(แนบภาพ)'}`
+  });
+  refreshActivityFeed && refreshActivityFeed();
+}
+
+function removeBillPhoto(id) {
+  const m = GHB.materials.find(x=>x.id===id);
+  if (m) { m.billPhoto=null; openBillDetail(id); renderMaterials(); }
+}
+
 function addBill() {
-  const no = document.getElementById('bill-no').value.trim()||'INV-NEW-'+(GHB.materials.length+1);
-  GHB.materials.push({
+  const no = document.getElementById('bill-no').value.trim()||'INV-'+(GHB.materials.length+1).toString().padStart(3,'0');
+  const newBill = {
     id:no, project:document.getElementById('bill-project').value,
     items:document.getElementById('bill-items').value||'—',
     vendor:document.getElementById('bill-vendor').value||'—',
     amount:+document.getElementById('bill-amount').value||0,
-    date:new Date().toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'numeric'}),
-    status:document.getElementById('bill-status').value, nas:false
-  });
+    date:document.getElementById('bill-date').value||new Date().toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'numeric'}),
+    status:document.getElementById('bill-status').value,
+    nas:false, foremanId:GHB.currentUser?.username||'',
+    billPhoto:null, updates:[]
+  };
+  GHB.materials.push(newBill);
   renderMaterials();
   closeModal('modal-add-bill');
   showToast('เพิ่มบิลวัสดุ '+no+' สำเร็จ','success');
@@ -4566,9 +4897,36 @@ document.getElementById('login-password').addEventListener('keydown', e => { if 
 document.getElementById('login-username').addEventListener('keydown', e => { if (e.key==='Enter') doLogin(); });
 
 /* ====================================================
+   DARK MODE
+   ==================================================== */
+function toggleDarkMode() {
+  const body = document.body;
+  const isDark = body.classList.toggle('dark-mode');
+  const icon = document.getElementById('dark-icon');
+  if (icon) {
+    icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+  }
+  /* Persist preference */
+  try { localStorage.setItem('ghb_darkmode', isDark?'1':'0'); } catch(e){}
+  showToast(isDark ? '🌙 โหมดมืด — ถนอมสายตา' : '☀️ โหมดสว่าง', '', 1800);
+}
+
+function initDarkMode() {
+  try {
+    const saved = localStorage.getItem('ghb_darkmode');
+    if (saved === '1') {
+      document.body.classList.add('dark-mode');
+      const icon = document.getElementById('dark-icon');
+      if (icon) icon.className = 'fa-solid fa-sun';
+    }
+  } catch(e){}
+}
+
+/* ====================================================
    STARTUP
    ==================================================== */
 document.getElementById('dashboard-time') && (document.getElementById('dashboard-time').textContent = today());
+initDarkMode();
 
 
 
